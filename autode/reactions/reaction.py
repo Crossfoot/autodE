@@ -276,6 +276,8 @@ class Reaction:
         h_method = get_hmethod()
         logger.info(f'Optimising reactants and products with {h_method.name}')
 
+
+        threads = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             for mol in self.reacs + self.prods:
                 threads.append(executor.submit(mol.optimise, h_method))

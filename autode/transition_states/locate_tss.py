@@ -274,6 +274,16 @@ def get_ts(reaction, reactant, bond_rearr, is_truncated=False):
     if is_worth_truncating(reactant, bond_rearr) and not is_truncated:
         get_truncated_ts(reaction, bond_rearr)
 
+
+    """
+    There is probably a way to turn this parallel.
+        Idea:
+         - get_ts_... yields different functions each time it's called
+            - After reading what the yield keyword does, idk if this is possible but I can try it
+    """
+
+
+
     # There are multiple methods of finding a transition state. Iterate through
     # from the cheapest -> most expensive
     for func, params in get_ts_guess_function_and_params(reaction, bond_rearr):
