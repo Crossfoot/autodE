@@ -16,7 +16,7 @@ from autode.plotting import plot_reaction_profile
 from autode.units import KcalMol
 from autode.utils import work_in
 from autode.reactions import reaction_types
-
+import concurrent.futures
 
 def calc_delta(attr, left, right):
     """Calculate the difference (∆) for a molecular attribute for some L → R"""
@@ -276,8 +276,13 @@ class Reaction:
         h_method = get_hmethod()
         logger.info(f'Optimising reactants and products with {h_method.name}')
 
-        for mol in self.reacs + self.prods:
-            mol.optimise(h_method)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            for mol in self.reacs + self.prods:
+                threads.append(executor.submit(mol.optimise, h_method))
+            for thread in concurrent.futures.as_completed(threads):
+                logger.info(f"Completed thread!")
+        #for mol in self.reacs + self.prods:
+        #    mol.optimise(h_method)
 
         return None
 
