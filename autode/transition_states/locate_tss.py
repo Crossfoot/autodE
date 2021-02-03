@@ -44,6 +44,10 @@ def find_tss(reaction):
         logger.error('Could not find a set of forming/breaking bonds')
         return None
 
+
+    # DING DING DING... This is where I should implement some parallelization
+    # A for loop thats done in serial? looks like a yummy pool threading application
+
     tss = []
     for bond_rearrangement in bond_rearrs:
         logger.info(f'Locating transition state using active bonds '
@@ -275,13 +279,10 @@ def get_ts(reaction, reactant, bond_rearr, is_truncated=False):
         get_truncated_ts(reaction, bond_rearr)
 
 
-    """
-    There is probably a way to turn this parallel.
-        Idea:
-         - get_ts_... yields different functions each time it's called
-            - After reading what the yield keyword does, idk if this is possible but I can try it
-    """
-
+    # There is probably a way to turn this parallel.
+    #    Idea:
+    #     - get_ts_... yields different functions each time it's called
+    #        - After reading what the yield keyword does, idk if this is possible but I can try it
 
 
     # There are multiple methods of finding a transition state. Iterate through
