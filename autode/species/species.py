@@ -207,7 +207,7 @@ class Species:
                                molecule=self,
                                method=method,
                                keywords=keywords,
-                               n_cores=Config.n_cores/4)
+                               n_cores=Config.n_cores)
         else:
             assert isinstance(calc, Calculation)
 

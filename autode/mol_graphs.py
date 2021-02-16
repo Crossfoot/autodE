@@ -448,17 +448,23 @@ def is_isomorphic(graph1, graph2, ignore_active_bonds=False, timeout=5):
     def handler(signum, frame):
         raise TimeoutError
 
-    signal.signal(signal.SIGALRM, handler)
-    signal.alarm(int(timeout))
-    try:
-        result = gm.is_isomorphic()
-        # Cancel the timer
-        signal.alarm(0)
-        return result
 
-    except TimeoutError:
-        logger.error('NX graph matching hanging')
-        return False
+    #   Find A way to replace the SIGALRM here with another stopper
+    #   SIGALRM doesn't let me put it into separate threads
+
+
+    #signal.signal(signal.SIGALRM, handler)
+    #signal.alarm(int(timeout))
+    #try:
+    #    result = gm.is_isomorphic()
+    #    # Cancel the timer
+    #    signal.alarm(0)
+    #    return result
+
+    #except TimeoutError:
+    #    logger.error('NX graph matching hanging')
+    #    return False
+    return gm.is_isomorphic()
 
 
 def gm_is_isomorphic(gm, result):

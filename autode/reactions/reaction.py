@@ -263,9 +263,13 @@ class Reaction:
         method"""
 
         h_method = get_hmethod() if Config.hmethod_conformers else None
-        for mol in self.reacs + self.prods:
-            # .find_lowest_energy_conformer works in conformers/
-            mol.find_lowest_energy_conformer(hmethod=h_method)
+        if h_method is not None:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+                for mol in self.reacs+self.prods:
+                    executor.submit(mol.find_lowest_energy_conformer,h_method)
+        #for mol in self.reacs + self.prods:
+        #    # .find_lowest_energy_conformer works in conformers/
+        #    mol.find_lowest_energy_conformer(hmethod=h_method)
 
         return None
 
